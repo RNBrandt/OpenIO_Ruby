@@ -29,7 +29,9 @@ this fetch request should give you acccess to the client object that you are ref
 ##Client Methods
 -Create container {client.createcontainer(url)}
 -Locate container {container_url = OioUrl.url("MY_ACCOUNT", "MY_CONTAINER_NAME", "MY_OBJECT_NAME")}
+-Create Object
 -List all objects in container {list = client.listContainer(container_url, options = {}}
 -Locate a specific object { obj_var = client.getObjectInfo(object_url)}
 -Download specific object {client.downloadObject(obj_var)}
--Create Object 
+-Delete Object {client.deleteObject(object_url)}
+-Delete Container {client.deleteContainer(container_url)}
