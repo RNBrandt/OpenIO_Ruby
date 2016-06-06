@@ -32,7 +32,7 @@ module ContentHelper
 
     def list_all_objects
       @list_all_objects = []
-      #This is not an efficient way to do this On^2, it can be done better through a sql database, but barring that, this will work.
+      #This is not an efficient way to do this On^2, it can be done better through a sql database, but barring that, this will work, Redis may be the solution to this problem.  It's super fast, and is in-memory.
       @containers.each do |container|
         container.objects.each do |object|
           @list_all_objects << object
