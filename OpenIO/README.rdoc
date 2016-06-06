@@ -1,28 +1,39 @@
 == README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#OpenIO Ruby API
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+##Classes
+-Client Builder(Engine)
+-Client
+-Container
+-Object
+
+##Relationships
+-Clients are instantiated with a namespace and server host(local)
+-Clients have many containers
+-Clients have many objects
+-Objects are instantiated with name, type, url
+-Objects belong to client
+-Objects belong to a container
+-Containers are instantiated with an client account and container name
+
+##Client Builder Methods
+-Create Client Objects {ClientBuilder.newClient("OPENIO", SERVER) }
+Basic client instantiation
+
+##Fetch(AJAX/Promise) Request
+-api_url = api_url.url("MY_ACCOUNT", "MY_CONTAINER_NAME")
+this fetch request should give you acccess to the client object that you are referencing
+
+
+##Client Methods
+-Create container {client.createcontainer(url)}
+-Locate container {container_url = OioUrl.url("MY_ACCOUNT", "MY_CONTAINER_NAME", "MY_OBJECT_NAME")}
+-Create Object
+-List all objects in container {list = client.listContainer(container_url, options = {}}
+-Locate a specific object { obj_var = client.getObjectInfo(object_url)}
+-Download specific object {client.downloadObject(obj_var)}
+-Delete Object {client.deleteObject(object_url)}
+-Delete Container {client.deleteContainer(container_url)}
+
+Testing
