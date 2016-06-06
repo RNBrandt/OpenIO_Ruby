@@ -35,3 +35,5 @@ this fetch request should give you acccess to the client object that you are ref
 -Download specific object {client.downloadObject(obj_var)}
 -Delete Object {client.deleteObject(object_url)}
 -Delete Container {client.deleteContainer(container_url)}
+
+Testing
