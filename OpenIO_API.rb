@@ -13,7 +13,6 @@ class Api_request < Sinatra::Base
     @namespace = namespace
     @ref = reference_name
     @path = content
-    @
   end
 
   post "/v3.0/#{@namespace}/content/prepare" do
