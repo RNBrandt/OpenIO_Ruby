@@ -11,9 +11,10 @@
 
 
 class Client
-  # Client is the largest of the russian nesting-doll naming conventions.  It holds the namespace (in the docs this is often "OPENIO"), and the server host  (a proxyd service url eg. "http://127.0.0.1:6002").
+  # Client is the largest of the russian nesting-doll naming conventions.  It holds the namespace (in the docs this is often "OPENIO"), and the server host  (a proxyd service url eg. "http://127.0.0.1:6002"). This is also only set for version 3.0
   attr_reader :namespace, :server_host
   def initialize(namespace, server_host)
+    @prefix = "v3.0"
     @namespace = namespace
     @server_host = server_host
     @containers = {}
@@ -62,7 +63,7 @@ class Container
 
   def create_container_url
     #!!This is somewhere the documentation needs to be fixed!! The API docs suggest this part is called the container name (https://github.com/open-io/oio-api-java), where the naming docs say this is called the User (https://github.com/open-io/oio-sds/wiki/OpenIO-Object-Names) Is this referencing something else? If so what?
-    @container_url = "#{@namespace}/#{@account}/#{@container_name}"
+    @container_url = "#{@prefix}/#{@namespace}/#{@account}/#{@container_name}"
   end
 
   def new_object(object_name)
