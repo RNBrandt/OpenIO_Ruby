@@ -1,77 +1,92 @@
-module ContentHelper
+# module ContentHelper
 
   class Client
-    attr_reader :namespace, :server_host, :containers, :list_all_objects
+    # Client is the largest of the
+    attr_reader :namespace, :server_host
     def initialize(namespace, server_host)
       @namespace = namespace
       @server_host = server_host
-      @containers = []
+      @containers = {}
     end
 
-    def create_container(name, url)
-      # we decided that containers are instantiated with only a name, but in the client methods we have it instantiated with a url
-      temp = Container.new(name, url)
-      @containers << temp
-      p @containers
+
+    def create_container(account, container_name)
+      temp = Container.new(account, container_name)
+      url = temp.container_url
+      @containers[url] = temp
     end
 
     def locate_container(container_url)
-      @containers.each do |container|
-        if container.url == container_url
-          return container
-        else
-          p "That container is not in this client"
-        end
+      if @containers[container_url]
+        return @containers[container_url]
+      else
+        p "That container is not in this client"
       end
     end
 
-    def create_object(container_url, object_name, object_type, object_url)
-      target = self.locate_container(container_url)
-      target.new_object(object_name, object_type, object_url)
+    def list_all_containers
+      @containers.each{|key, value| puts "#{key} => #{value}"}
     end
 
-    def list_all_objects
-      @list_all_objects = []
-      #This is not an efficient way to do this On^2, it can be done better through a sql database, but barring that, this will work, Redis may be the solution to this problem.  It's super fast, and is in-memory.
-      @containers.each do |container|
-        container.objects.each do |object|
-          @list_all_objects << object
-        end
-        return @list_all_objects
-      end
-    end
-
-    def get_object_info(object_url)
-       @containers.each do |container|
-        container.objects.each do |object|
-          if object.url == object_url
-            return object
-          else
-            p "That object is not in this client"
-          end
-      end
+    def delete_container(container_url)
+      @containers[container_url]= nil
     end
   end
 
   class Container
-    attr_reader :name, :url, :objects
-    def initialize(name, url)
-      @name = name
-      @url = url
-      @objects = []
-      # @client_id = nil
+    attr_reader  :container_url, :objects
+    def initialize(account, container_name)
+      @account = account
+      @container_name = container_name
+      @container_url = create_container_url
+      @objects = {}
     end
 
-    def new_object(name, type, url)
-      temp = Object.new(name, type, url)
-      @objects << temp
+    def create_container_url
+      #The documentation is unclear here. Is the user the container_name?
+      @container_url = "#{@namespace}/#{@account}/#{@container_name}"
+    end
+
+    def new_object(object_name)
+      temp = Object.new(@container_url, object_name)
+      url = temp.object_url
+      @objects[url] = temp
+    end
+
+    def list_objects
+      @objects.each {|key, value| puts "#{key} => #{value}"}
+    end
+
+    def delete_object(object_url)
+      @objects[object_url] = nil
     end
   end
-    class Object
-      def initialize(name, type, url)
-        @name = name
-        @type = type
-        @url = url
-      end
 
-end
+  class Object
+    # This must be more completely fleshed out.  It is still unclear from the docs. How the data should be prepared and uploaded.  I have looked at
+    attr_reader :object_url
+    def initialize(container_url, object_name)
+      @object_name = object_name
+      @container_url = container_url
+      @object_url = create_object_url
+    end
+
+    def create_object_url
+      @object_url = "#{@container_url}/#{@object_name}"
+    end
+  end
+# end
+
+p test = Client.new("namespace", "IP:ADDRESS")
+p "******************************************************"
+
+p test.create_container("account", "container_name")
+p "******************************************************"
+
+p second_container = test.create_container("SECONDACCOUNT", "NEXTCONTAINER")
+p "******************************************************"
+
+p test.list_all_containers
+p "******************************************************"
+p first_object = second_container.new_object("object")
+p second_container.list_objects
