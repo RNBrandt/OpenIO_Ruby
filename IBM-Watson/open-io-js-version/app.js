@@ -31,6 +31,12 @@ require('./config/express')(app);
 // Create the service wrapper
 var personalityInsights = watson.personality_insights({
   version: 'v2',
+/*
+  The username and password come from console.ng.bluemix.net, 
+  under [your app name] > Environmental Variables > VCAP_SERVICES
+
+  They appear to be encrypted as salted hashes.
+*/
   username: '<username>',
   password: '<password>'
 });
