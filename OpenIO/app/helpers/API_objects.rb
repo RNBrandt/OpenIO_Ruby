@@ -8,22 +8,21 @@
 
 # There were a few conflicts between these docs, which lead to some confusion. In those cases, Object oriented programming and DRY standards were maintained as closely as possible.
 
-
+require 'uri'
 
 class Client
   # Client is the largest of the russian nesting-doll naming conventions.  It holds the namespace (in the docs this is often "OPENIO"), and the server host  (a proxyd service url eg. "http://127.0.0.1:6002"). This is also only set for version 3.0
   attr_reader :namespace, :server_host
-  def initialize(namespace, server_host)
-    @prefix = "v3.0"
-    @namespace = namespace
-    @server_host = server_host
+  def initialize(server_host, namespace)
+    prefix = "v3.0"
     @containers = {}
+    @client_url = URI.join("#{server_host}/","#{prefix}/","#{namespace}")
   end
 
 
   def create_container(account, container_name)
     #Creates container, and adds the container to its client's @containers hash.
-    temp = Container.new(account, container_name)
+    temp = Container.new(@client_url, account, container_name)
     url = temp.container_url
     @containers[url] = temp
   end
@@ -48,22 +47,24 @@ class Client
       @containers[container_url] = nil
     else
       raise "that container is not in this client"
+    end
   end
 end
 
 class Container
   #A container is the second level, and middle of this naming convention.  It inherits the namespace and server host from its client.  It has an @objects hash which does exactly the same thing as the @containers hash in the Client.
   attr_reader  :container_url, :objects
-  def initialize(account, container_name)
+  def initialize(client_url, account, container_name)
     @account = account
     @container_name = container_name
+    @client_url = client_url
     @container_url = create_container_url
     @objects = {}
   end
 
   def create_container_url
     #!!This is somewhere the documentation needs to be fixed!! The API docs suggest this part is called the container name (https://github.com/open-io/oio-api-java), where the naming docs say this is called the User (https://github.com/open-io/oio-sds/wiki/OpenIO-Object-Names) Is this referencing something else? If so what?
-    @container_url = "#{@prefix}/#{@namespace}/#{@account}/#{@container_name}"
+    @container_url = URI.join("#{@client_url}/", "#{@account}/","#{@container_name}")
   end
 
   def new_object(object_name)
@@ -99,7 +100,7 @@ class Object
 
   def create_object_url
     #Creates the objects url by passing in a specified container's url and adding the object_name to end of the string.
-    @object_url = "#{@container_url}/#{@object_name}"
+    @object_url = URI.join("#{@container_url}/","#{@object_name}")
   end
 end
 
