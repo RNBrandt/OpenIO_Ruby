@@ -19,7 +19,9 @@ In line 49 of app.js, I put a console.log, so that you can see what the request 
 In line 57 of app.js, I put a console.log, so that you can see what the response looks like.
 
 Also, for more information with the API, please see:
-[https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights/api/v2/?node#api_explorer](https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights/api/v2/?node#api_explorer)
+[https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights/api/v2/?node#api_explorer](https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights/api/v2/?node#api_explorer).
+
+There are 2 versions that are useful to us: the Node input/request version AND the Curl input/request version.
 
 For more information, please see:
 [https://github.com/watson-developer-cloud/personality-insights-nodejs](https://github.com/watson-developer-cloud/personality-insights-nodejs)
