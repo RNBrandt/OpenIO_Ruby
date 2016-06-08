@@ -1,3 +1,30 @@
+I have put sample JSON responses in this folder.
+
+To see this web app, please go to [http://open-io-js-version.mybluemix.net/](http://open-io-js-version.mybluemix.net/)
+
+To test this locally, please use [localhost:3000](localhost:3000).
+
+But if you try to run this locally, it will give you permissions errors.  
+
+In order to not get permission erros, please see the username and password from console.ng.bluemix.net, 
+
+under [your app name] > Environmental Variables > VCAP_SERVICES
+
+They appear to be encrypted as salted hashes.  Bernice will send you the salted hashes through chat/Slack/singing telegram/carrier pigeon, so they won't get uploaded to GitHub.
+
+The magic happens because of the file called app.js.  I have put some comments there with instructions about the environmental variables for login & password (lines 34 to 39).  
+
+In line 49 of app.js, I put a console.log, so that you can see what the request looks like.
+
+In line 57 of app.js, I put a console.log, so that you can see what the response looks like.
+
+
+For more information, please see:
+[https://github.com/watson-developer-cloud/personality-insights-nodejs](https://github.com/watson-developer-cloud/personality-insights-nodejs)
+
+--------------
+default stuff
+--------------
 # Personality Insights Nodejs Starter Application
 
   The IBM Watson [Personality Insights][service_url] service uses linguistic analysis to extract cognitive and social characteristics from input text such as email, text messages, tweets, forum posts, and more. By deriving cognitive and social preferences, the service helps users to understand, connect to, and communicate with other people on a more personalized level.
